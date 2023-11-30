@@ -4,15 +4,16 @@ import 'package:chat/screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+final _auth=FirebaseAuth.instance;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: ChatScreen(),
-      initialRoute: WelcomeScreen.screenRoute,
+      initialRoute: _auth.currentUser != null ?ChatScreen.screenRoute : WelcomeScreen.screenRoute,
       routes: {
         WelcomeScreen.screenRoute :(context) => WelcomeScreen(),
         SignIn.screenRoute:(context) => SignIn(),
